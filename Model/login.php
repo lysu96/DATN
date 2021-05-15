@@ -1,8 +1,8 @@
 <?php 
 require_once 'Confing/confing.php';
-class Sanpham extends Databases
+class Login extends Databases
 {
-	private $tbl = "sanpham";
+	private $tbl = "nguoidung";
 	
 	function __construct()
 	{
@@ -15,17 +15,23 @@ class Sanpham extends Databases
 		$sql = "SELECT * FROM $table";
 		return $this->Getdata($sql);
 	}
-	public function List_PT($page, $offset)
+	public function List_user_to_email($email)
 	{
 		$table = $this->tbl;
-		$sql = "SELECT * FROM $table ORDER BY idsp ASC LIMIT $page OFFSET $offset";
+		$sql = "SELECT * FROM $table WHERE email = '$email'";
 		return $this->Getdata($sql);
 	}
-	public function Num_rows($value='')
+	public function Ckeck_email($email)
 	{
 		$table = $this->tbl;
-		$sql = "SELECT * FROM $table";
-		return $this->Execute($sql);
+		$sql = "SELECT * FROM $table WHERE email = '$email'";
+		return $this->Num_rows($sql);
+	}
+	public function check_user($user)
+	{
+		$table = $this->tbl;
+		$sql = "SELECT * FROM $table WHERE username = '$user'";
+		return $this->Num_rows($sql);
 	}
 	public function List_id($id)
 	{
@@ -45,10 +51,10 @@ class Sanpham extends Databases
 		$sql = "UPDATE $table SET tensp='$ten_sp', hinhanhsp='$hinhanh_sp', mausp='$mau_sp', chitietsp='$chitiet_sp', soluong='$so_luong', daban='$da_ban', gia='$gia_sp', khuyenmai1='$khuyenmai_1', khuyenmai2='$khuyenmai_2', madm='$ma_dm', ngaycapnhap='$ngaycapnhap', trangthai='$trang_thai' WHERE idsp=$id";
 		return $this->Execute($sql);
 	}
-	public function Add($ten_sp, $hinhanh_sp, $mau_sp, $chitiet_sp, $so_luong, $da_ban, $gia_sp, $khuyenmai_1, $khuyenmai_2, $ma_dm, $ngaycapnhap, $trang_thai)
+	public function Add($username, $hoten, $password, $ngaysinh, $gioitinh, $email, $ngaydangky, $phanquyen, $token)
 	{
 		$table = $this->tbl;
-		$sql = "INSERT INTO $table(idsp, tensp, hinhanhsp, mausp, chitietsp, soluong, daban, gia, khuyenmai1, khuyenmai2, madm, ngaycapnhap, trangthai) VALUES (NULL,'$ten_sp', '$hinhanh_sp', '$mau_sp', '$chitiet_sp', '$so_luong', '$da_ban', '$gia_sp', '$khuyenmai_1', '$khuyenmai_2', '$ma_dm', '$ngaycapnhap', '$trang_thai')";
+		$sql = "INSERT INTO $table(idnd, username, hoten, password, ngaysinh, gioitinh, email, ngaydangky, phanquyen, token) VALUES (NULL,'$username','$hoten','$password','$ngaysinh','$gioitinh','$email','$ngaydangky','$phanquyen','$token')";
 		return $this->Execute($sql);
 	}
 	public function Delete($id)
